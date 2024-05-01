@@ -35,7 +35,7 @@ fun ShadowComponent(
         ) {
             Box(
                 Modifier
-                    .size(100.dp)
+                    .size(200.dp)
                     .padding(horizontal = 24.dp, vertical = 24.dp)
                     .shadowView(
                         color,
