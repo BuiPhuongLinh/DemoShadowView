@@ -37,6 +37,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linh.democustomview.ui.theme.DemoCustomViewTheme
@@ -72,6 +74,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
+    var width by remember { mutableIntStateOf(100) }
+    var height by remember { mutableIntStateOf(100) }
     var alpha by remember { mutableFloatStateOf(.2f) }
     var borderRadius by remember { mutableFloatStateOf(12f) }
     var blurRadius by remember { mutableFloatStateOf(2f) }
@@ -82,7 +86,15 @@ fun Greeting(modifier: Modifier = Modifier) {
     Column(modifier.fillMaxSize()) {
         Box(modifier = Modifier.weight(1f)) {
             ShadowComponent(
-                Color.Black, alpha, borderRadius, blurRadius, offsetY, offsetX, spread
+                width.dp,
+                height.dp,
+                Color.Black,
+                alpha,
+                borderRadius,
+                blurRadius,
+                offsetY,
+                offsetX,
+                spread
             )
         }
         Column(
@@ -91,7 +103,11 @@ fun Greeting(modifier: Modifier = Modifier) {
                 .fillMaxSize(),
         ) {
             ShadowControls(
+                width = width.toFloat(),
+                height = height.toFloat(),
                 alpha = alpha,
+                onWidthChange = { width = it.toInt() },
+                onHeightChange = { height = it.toInt() },
                 onAlphaChange = { alpha = it },
                 borderRadius = borderRadius,
                 onBorderRadiusChange = { borderRadius = it },
@@ -110,6 +126,10 @@ fun Greeting(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ShadowControls(
+    width: Float,
+    onWidthChange: (Float) -> Unit,
+    height: Float,
+    onHeightChange: (Float) -> Unit,
     alpha: Float,
     onAlphaChange: (Float) -> Unit,
     borderRadius: Float,
@@ -130,6 +150,18 @@ private fun ShadowControls(
             .padding(horizontal = 24.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
+        ValueSlider(
+            title = "Width",
+            value = width,
+            onValueChange = onWidthChange,
+            valueRange = 50f..500f,
+        )
+        ValueSlider(
+            title = "Height",
+            value = height,
+            onValueChange = onHeightChange,
+            valueRange = 50f..500f,
+        )
         ValueSlider(
             title = "Alpha",
             value = alpha,

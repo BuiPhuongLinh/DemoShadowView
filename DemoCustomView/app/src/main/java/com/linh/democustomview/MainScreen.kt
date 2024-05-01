@@ -1,5 +1,6 @@
 package com.linh.democustomview
 
+import android.health.connect.datatypes.HeightRecord
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.linh.democustomview.custom.ShadowContainer
 import com.linh.democustomview.custom.shadowView
 
 @Composable
 fun ShadowComponent(
+    width: Dp,
+    height: Dp,
     color: Color,
     alpha: Float,
     borderRadius: Float,
@@ -35,7 +39,7 @@ fun ShadowComponent(
         ) {
             Box(
                 Modifier
-                    .size(200.dp)
+                    .size(width, height)
                     .padding(horizontal = 24.dp, vertical = 24.dp)
                     .shadowView(
                         color,
